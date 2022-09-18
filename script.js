@@ -80,13 +80,6 @@ function change_snake_direction(event){
   snake_move_switch = 0;
 }
 
-/*function move_snake(){
-  for (i in snake_body_position){
-    snake_body_position[i].x += dx;
-    snake_body_position[i].y -= dy;
-  }
-}*/
-
 function move_snake(){
   // Snake's body
   for(let i = snake_body_position.length - 1; i>0; i--){   
@@ -111,8 +104,8 @@ function move_snake(){
 function main(){
   setInterval(function runGame(){
     clear_board();
-    draw_snake();
     move_snake();
+    draw_snake();
     snake_move_switch = 1;
   }, 100);
 }
