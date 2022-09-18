@@ -1,6 +1,7 @@
 //-------------------game variables.--------------------
 // def Game on or off
 let game_status = 1;
+
 // def Game constant color.
 const board_border_color = "black";
 const board_background_color = "white";
@@ -8,6 +9,7 @@ const snake_col_color = "lightblue";
 const snake_border_color = "darkblue";
 
 // def snake's initial position
+let snake_move_switch = 1; // 1 means you can change snake's move, 0 means you can't
 let snake_body_size = [10, 10]
 let snake_body_position = [
   {x: 200, y: 200},
@@ -51,6 +53,9 @@ function draw_snake(){
 }
 
 function change_snake_direction(event){
+  if(snake_move_switch === 0){
+    return
+  }
   const LEFT_KEY = 37;
   const RIGHT_KEY = 39;
   const UP_KEY = 38;
@@ -72,13 +77,25 @@ function change_snake_direction(event){
     dx = 0;
     dy = -10;
   }
+  snake_move_switch = 0;
 }
 
-function move_snake(){
+/*function move_snake(){
   for (i in snake_body_position){
     snake_body_position[i].x += dx;
     snake_body_position[i].y -= dy;
   }
+}*/
+
+function move_snake(){
+  // Snake's body
+  for(let i = snake_body_position.length - 1; i>0; i--){   
+    snake_body_position[i].x = snake_body_position[i-1].x;
+    snake_body_position[i].y = snake_body_position[i-1].y;
+  }
+  // Snake's head
+  snake_body_position[0].x += dx;
+  snake_body_position[0].y -= dy;
 }
 
 //this piece of blocked script doesn't work very well.
@@ -94,8 +111,9 @@ function move_snake(){
 function main(){
   setInterval(function runGame(){
     clear_board();
-    move_snake();
     draw_snake();
+    move_snake();
+    snake_move_switch = 1;
   }, 100);
 }
 
